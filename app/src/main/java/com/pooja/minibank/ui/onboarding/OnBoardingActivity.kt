@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.pooja.minibank.MainActivity
 import com.pooja.minibank.databinding.ActivityOnBoardingBinding
 import com.pooja.minibank.domain.model.OnBoardingItem
+import com.pooja.minibank.ui.auth.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -82,7 +82,7 @@ class OnBoardingActivity : AppCompatActivity() {
     //Navigate to next screen
     private fun navigateToNextScreen() {
         onBoardingViewModel.finishOnBoarding()
-        startActivity(Intent(this@OnBoardingActivity, MainActivity::class.java))
+        startActivity(Intent(this@OnBoardingActivity, LoginActivity::class.java))
         finish()
     }
 

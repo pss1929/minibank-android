@@ -8,6 +8,7 @@ object Constants {
     const val SP_ONBOARDING_DONE = "onboarding_done"
     const val SP_ACCESS_TOKEN = "access_token"
     const val SP_REFRESH_TOKEN = "refresh_token"
+    const val SP_IS_LOGGED_IN = "isLoggedIn"
 
 
 }

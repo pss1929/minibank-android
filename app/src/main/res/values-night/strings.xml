@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MiniBank</string>
     <string name="no_internet_connection_available">No internet connection available</string>
     <string name="verify_otp">Verify OTP</string>
     <string name="username_is_required">Username is required</string>

@@ -6,7 +6,9 @@
     <color name="primary_variant">#FB8C00</color>
     <color name="secondary">#FFCC80</color>
     <color name="primary_light">#FFA726</color>
-<color name="primary_dark">#FB8C00</color>
+    <color name="red">#F44336</color>
+
+    <color name="primary_dark">#FB8C00</color>
     <color name="background">#121212</color>
     <color name="surface">#1E1E1E</color>
     <color name="text_primary">#FFFFFF</color>

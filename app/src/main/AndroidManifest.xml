@@ -7,6 +7,8 @@
     <application
         android:name=".core.app.MiniBankApplication"
         android:allowBackup="true"
+        android:usesCleartextTraffic="false"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -15,10 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniBank">
         <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.onboarding.OnBoardingActivity"
             android:exported="false" />
-
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">

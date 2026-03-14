@@ -85,6 +85,10 @@ dependencies {
 
     //activity
     implementation ("androidx.activity:activity-ktx:1.9.0")
+
+    //glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
 }
 
 kapt {

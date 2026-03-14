@@ -1,14 +1,14 @@
 package com.pooja.minibank.data.local.pref
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.pooja.minibank.core.utils.Constants
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class PreferenceManager @Inject constructor(@ApplicationContext private val context: Context){
+class PreferenceManager @Inject constructor(val pref : SharedPreferences){
 
-    private val pref = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE)
 
     fun addPref(key : String, value: String)
     {

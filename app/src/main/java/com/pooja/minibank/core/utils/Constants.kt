@@ -1,10 +1,13 @@
 package com.pooja.minibank.core.utils
 
 object Constants {
-    const val APP_NAME = "Mini Bank"
-    const val PREF_NAME ="min-_bank_pref"
+    const val SECURE_PREF_NAME ="secure_min_bank_pref"
+
 
     //onboarding shared pref keys
     const val SP_ONBOARDING_DONE = "onboarding_done"
+    const val SP_ACCESS_TOKEN = "access_token"
+    const val SP_REFRESH_TOKEN = "refresh_token"
+
 
 }

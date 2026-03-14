@@ -30,7 +30,7 @@ class BankingMockDispatcher : Dispatcher() {
         }
         else
         {
-            error(401, """{"error":"UNAUTHORIZED","message":"Invalid credentials"}""")
+            error(401, """{"error":"UNAUTHORIZED","message":"Invalid username or password"}""")
 
         }
     }

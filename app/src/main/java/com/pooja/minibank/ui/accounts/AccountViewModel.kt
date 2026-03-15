@@ -2,6 +2,7 @@ package com.pooja.minibank.ui.accounts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pooja.minibank.core.utils.UiState
 import com.pooja.minibank.domain.model.account.Account
 import com.pooja.minibank.domain.usecase.account.GetAccountUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,13 +14,28 @@ import javax.inject.Inject
 @HiltViewModel
 class AccountViewModel @Inject constructor(private val getAccountUseCase: GetAccountUseCase) : ViewModel(){
 
-    private val _account = MutableStateFlow<List<Account>> (emptyList())
+    private val _account = MutableStateFlow<UiState<List<Account>>> (UiState.Loading)
     val accounts = _account.asStateFlow()
 
     fun getAccounts(){
         viewModelScope.launch {
             val data = getAccountUseCase()
-            _account.value = data
+            try{
+                val data = getAccountUseCase()
+                if(data.isEmpty())
+                {
+                    _account.value = UiState.Loading
+                }
+                else
+                {
+                    _account.value = UiState.Success(data)
+                }
+            }
+            catch(e:Exception)
+            {
+                _account.value = UiState.Error("Failed to load data")
+            }
+
         }
     }
 

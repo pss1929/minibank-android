@@ -10,6 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.pooja.minibank.R
 import com.pooja.minibank.core.utils.Constants
+import com.pooja.minibank.core.utils.UiState
+import com.pooja.minibank.core.utils.gone
+import com.pooja.minibank.core.utils.visible
 import com.pooja.minibank.data.local.pref.PreferenceManager
 import com.pooja.minibank.databinding.FragmentAccountBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +72,10 @@ class AccountFragment : Fragment() {
         binding.rvAccounts.adapter = adapter
 
         binding.swipeLayout.setColorSchemeResources(R.color.primary)
+
+        binding.btnRetry.setOnClickListener {
+            callAccountApi()
+        }
     }
 
     private fun observeAccounts() {
@@ -76,7 +83,35 @@ class AccountFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
 
             viewModel.accounts.collect {
-                adapter.submitList(it)
+                when(it)
+                {
+                    is UiState.Loading ->{
+                        binding.swipeLayout.isRefreshing = true
+                    }
+
+                    is UiState.Success ->{
+                        adapter.submitList(it.data)
+                        binding.rvAccounts.visible()
+                        binding.tvNoData.gone()
+                        binding.llError.gone()
+                        binding.swipeLayout.isRefreshing = false
+                    }
+
+                    is UiState.Error ->{
+                        binding.llError.visible()
+                        binding.rvAccounts.gone()
+                        binding.llError.gone()
+
+                        binding.swipeLayout.isRefreshing = false
+                    }
+
+                    is UiState.Empty ->{
+                        binding.rvAccounts.visible()
+                        binding.tvNoData.gone()
+                        binding.llError.gone()
+                        binding.swipeLayout.isRefreshing = false
+                    }
+                }
                 binding.swipeLayout.isRefreshing =false
             }
         }

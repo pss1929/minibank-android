@@ -59,7 +59,8 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
     implementation("com.squareup.okhttp3:mockwebserver:4.12.0")
-
+    implementation("com.squareup.okhttp3:okhttp-tls:4.12.0")
+// for HeldCertificate
     //material
     implementation("com.google.android.material:material:1.13.0")
 

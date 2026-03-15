@@ -9,18 +9,43 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import javax.net.ssl.SSLContext
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+
     @Provides
     @Singleton
-    fun provideOkHttpClient() : OkHttpClient{
-        return OkHttpClient.Builder().build()
+    fun provideSslContext() : SSLContext{
+        val context = SSLContext.getInstance("TLS")
+        context.init(null, arrayOf(MiniBankApplication.trustManager),null)
+        return context
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(sslContext: SSLContext) : OkHttpClient{
+
+
+        val client = OkHttpClient.Builder()
+            .sslSocketFactory(sslContext.socketFactory,
+                MiniBankApplication.trustManager
+                )
+            .hostnameVerifier { hostname, _ ->
+                hostname == "localhost"
+            }
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+            .build()
+
+        return client
     }
 
     @Provides
@@ -28,6 +53,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit{
         return Retrofit.Builder()
             .baseUrl(MiniBankApplication.BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

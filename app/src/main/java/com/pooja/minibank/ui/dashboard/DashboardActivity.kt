@@ -7,6 +7,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.pooja.minibank.R
+import com.pooja.minibank.core.utils.enableSecureScreen
 import com.pooja.minibank.databinding.ActivityDashboardBinding
 import com.pooja.minibank.ui.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +20,8 @@ class DashboardActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableSecureScreen()
         enableEdgeToEdge()
         binding = ActivityDashboardBinding.inflate(layoutInflater)
 

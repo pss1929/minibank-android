@@ -15,6 +15,7 @@ import com.pooja.minibank.R
 import com.pooja.minibank.core.utils.NetworkUtil
 import com.pooja.minibank.core.utils.ResponseState
 import com.pooja.minibank.core.utils.SnackBarUtil
+import com.pooja.minibank.core.utils.enableSecureScreen
 import com.pooja.minibank.core.utils.gone
 import com.pooja.minibank.core.utils.visible
 import com.pooja.minibank.databinding.ActivityLoginBinding
@@ -30,6 +31,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableSecureScreen()
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
 

@@ -3,6 +3,7 @@ package com.pooja.minibank.core.network
 import com.pooja.minibank.core.app.MiniBankApplication
 import com.pooja.minibank.data.local.pref.TokenManager
 import com.pooja.minibank.data.remote.ApiService
+import com.pooja.minibank.data.remote.TransferApi
 import com.pooja.minibank.data.remote.interceptor.AuthInterceptor
 import com.pooja.minibank.data.remote.interceptor.SessionInterceptor
 import com.pooja.minibank.data.repository.AuthRepositoryImpl
@@ -88,6 +89,13 @@ object NetworkModule {
     fun provideAuthRepository(apiService: ApiService) : AuthRepository{
 
         return AuthRepositoryImpl(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTransferApi(retrofit: Retrofit): TransferApi {
+
+        return retrofit.create(TransferApi::class.java)
     }
 
 }

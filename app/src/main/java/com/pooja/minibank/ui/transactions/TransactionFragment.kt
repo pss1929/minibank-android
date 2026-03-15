@@ -48,10 +48,7 @@ class TransactionFragment : Fragment() {
 
         accountId = arguments?.getString("accountId") ?: ""
 
-        binding.toolbar.setNavigationIcon(R.drawable.ic_back)
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
+        backClickHandle()
 
         setupRecyclerView()
 
@@ -60,6 +57,15 @@ class TransactionFragment : Fragment() {
         observeTransactions()
 
         loadLast7Days()
+    }
+
+    private fun backClickHandle() {
+
+        binding.toolbar.setTitle("Transaction Detail")
+        binding.toolbar.setNavigationIcon(R.drawable.ic_back)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setupRecyclerView() {

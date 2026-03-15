@@ -24,6 +24,7 @@ class MiniBankApplication : Application(){
         super.onCreate()
 
 
+
        // SessionManager.init(this)
         val latch = java.util.concurrent.CountDownLatch(1)
 

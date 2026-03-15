@@ -6,6 +6,8 @@ import okhttp3.mockwebserver.RecordedRequest
 
 class BankingMockDispatcher : Dispatcher() {
     private val usedKeys = mutableSetOf<String>()
+    private val transfers = mutableListOf<String>()
+    private var transferCounter = 8001
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val path = request.path?: return error500()
@@ -73,7 +75,9 @@ class BankingMockDispatcher : Dispatcher() {
     }
 
     private fun transfer(req: RecordedRequest): MockResponse {
-        if (!isAuth(req)) return error(401, """{"error":"UNAUTHORIZED"}""")
+
+        if (!isAuth(req))
+            return error(401, """{"error":"UNAUTHORIZED"}""")
 
         val key = req.getHeader("Idempotency-Key")
             ?: return error(
@@ -81,30 +85,100 @@ class BankingMockDispatcher : Dispatcher() {
                 """{"error":"INVALID_REQUEST","message":"Idempotency-Key required"}"""
             )
 
+        // DUPLICATE REQUEST
         if (usedKeys.contains(key)) {
-            return error(
-                409,
-                """{"status":"DUPLICATE","transferId":"trf_8001","message":"Already processed"}"""
+
+            return ok(
+                """
+            {
+              "status":"DUPLICATE",
+              "transferId":"${transfers.lastOrNull() ?: "trf_8001"}",
+              "message":"This request has already been processed."
+            }
+            """
             )
         }
 
         val body = req.body.readUtf8()
+
         val amount =
-            Regex("\"amount\":(\\d+\\.?\\d*)").find(body)?.groupValues?.get(1)?.toDoubleOrNull()
+            Regex("\"amount\":(\\d+\\.?\\d*)")
+                .find(body)
+                ?.groupValues
+                ?.get(1)
+                ?.toDoubleOrNull()
                 ?: 0.0
 
+        // INSUFFICIENT FUNDS
         if (amount > 200000) {
+
             return error(
                 400,
-                """{"status":"FAILED","errorCode":"INSUFFICIENT_FUNDS","message":"Insufficient balance"}"""
+                """
+            {
+              "status":"FAILED",
+              "errorCode":"INSUFFICIENT_FUNDS",
+              "message":"Your account does not have sufficient balance to complete this transfer."
+            }
+            """
             )
         }
 
+        // CREATE NEW TRANSFER RECORD
+
+        val transferId = "trf_${transferCounter++}"
+
+        transfers.add(transferId)
         usedKeys.add(key)
-        return MockResponse().setResponseCode(201)
+
+        return MockResponse()
+            .setResponseCode(201)
             .setHeader("Content-Type", "application/json")
-            .setBody("""{"transferId":"trf_8001","status":"SUCCESS","referenceNumber":"MBK12345678","processedAt":"2026-03-13T07:30:05Z"}""")
-        }
+            .setBody(
+                """
+            {
+              "transferId":"$transferId",
+              "status":"SUCCESS",
+              "referenceNumber":"MBK${System.currentTimeMillis()}",
+              "processedAt":"2026-03-13T07:30:05Z"
+            }
+            """
+            )
+    }
+
+//    private fun transfer(req: RecordedRequest): MockResponse {
+//        if (!isAuth(req)) return error(401, """{"error":"UNAUTHORIZED"}""")
+//
+//        val key = req.getHeader("Idempotency-Key")
+//            ?: return error(
+//                400,
+//                """{"error":"INVALID_REQUEST","message":"Idempotency-Key required"}"""
+//            )
+//
+//        if (usedKeys.contains(key)) {
+//            return error(
+//                409,
+//                """{"status":"DUPLICATE","transferId":"trf_8001","message":"Already processed"}"""
+//            )
+//        }
+//
+//        val body = req.body.readUtf8()
+//        val amount =
+//            Regex("\"amount\":(\\d+\\.?\\d*)").find(body)?.groupValues?.get(1)?.toDoubleOrNull()
+//                ?: 0.0
+//
+//        if (amount > 200000) {
+//            return error(
+//                400,
+//                """{"status":"FAILED","errorCode":"INSUFFICIENT_FUNDS","message":"Insufficient balance"}"""
+//            )
+//        }
+//
+//        usedKeys.add(key)
+//        return MockResponse().setResponseCode(201)
+//            .setHeader("Content-Type", "application/json")
+//            .setBody("""{"transferId":"trf_8001","status":"SUCCESS","referenceNumber":"MBK12345678","processedAt":"2026-03-13T07:30:05Z"}""")
+//        }
 
         private fun isAuth(req: RecordedRequest) =
             req.getHeader("Authorization") == "Bearer mock-access-token-123"

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.pooja.minibank.data.local.AppDatabase
 import com.pooja.minibank.data.local.dao.AccountDao
+import com.pooja.minibank.data.local.dao.BeneficiaryDao
 import com.pooja.minibank.data.local.dao.TransactionDao
 import dagger.Module
 import dagger.Provides
@@ -34,5 +35,11 @@ object DatabaseModule {
     @Singleton
     fun provideTransactionDao(db : AppDatabase) : TransactionDao{
         return  db.transactionDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideBeneficiaryDao(db : AppDatabase) : BeneficiaryDao{
+        return  db.beneficiaryDao()
     }
 }

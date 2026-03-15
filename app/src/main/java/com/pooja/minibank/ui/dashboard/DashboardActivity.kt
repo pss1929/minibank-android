@@ -1,6 +1,7 @@
 package com.pooja.minibank.ui.dashboard
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -33,11 +34,26 @@ class DashboardActivity : BaseActivity() {
             insets
         }
 
+        handleNavigationComponent()
+    }
+
+    private fun handleNavigationComponent() {
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         val navHostController = navHost.navController
         binding.bottomNavigation.setupWithNavController(navHostController)
 
+        navHostController.addOnDestinationChangedListener { _, destination, _ ->
 
+            when (destination.id) {
+                R.id.transactionFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
+
+                else -> {
+                    binding.bottomNavigation.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
 }

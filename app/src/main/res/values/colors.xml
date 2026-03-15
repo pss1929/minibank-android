@@ -13,4 +13,11 @@
     <color name="surface">#F5F5F5</color>
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
+
+
+    <color name="credit_color">#F44336</color>
+    <color name="debit_color">#2E7D32</color>
+    <color name="red_light">#F44336</color>
+    <color name="green_light">#2E7D32</color>
+
 </resources>

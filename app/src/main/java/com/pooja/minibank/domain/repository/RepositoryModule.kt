@@ -1,6 +1,8 @@
 package com.pooja.minibank.domain.repository
 
 import com.pooja.minibank.data.repository.AccountRepositoryImpl
+import com.pooja.minibank.data.repository.TransactionRepositoryImpl
+
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,5 +17,12 @@ abstract class RepositoryModule {
         abstract fun bindAccountRepository(
             impl: AccountRepositoryImpl
         ): AccountRepository
+
+
+    @Binds
+    abstract fun bindTransactionRepository(
+        impl: TransactionRepositoryImpl
+    ): TransactionRepository
+
     }
 

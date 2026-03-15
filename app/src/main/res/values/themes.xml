@@ -3,6 +3,8 @@
     <style name="Base.Theme.MiniBank" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSecondary">@color/secondary</item>
     </style>
 
     <style name="Theme.MiniBank" parent="Base.Theme.MiniBank" />
@@ -19,8 +21,25 @@
         <item name="android:maxLength">1</item>
     </style>
 
+    <style name="til">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:background">@drawable/til_background</item>
+    </style>
+
     <style name="BottomMenuText" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.MiniBank.Blue" parent="Base.Theme.MiniBank">
+        <item name="colorPrimary">#1565C0</item>
+    </style>
+
+    <style name="Theme.MiniBank.Green" parent="Base.Theme.MiniBank">
+        <item name="colorPrimary">#2E7D32</item>
+    </style>
+
+    <style name="Theme.MiniBank.Purple" parent="Base.Theme.MiniBank">
+        <item name="colorPrimary">#6A1B9A</item>
     </style>
 </resources>

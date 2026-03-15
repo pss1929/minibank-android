@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -38,6 +39,8 @@ class OtpActivity : AppCompatActivity() {
     private var sessionId: String? =""
     private var mobileNumber : String? = ""
 
+    private var username : String ?=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -68,11 +71,18 @@ class OtpActivity : AppCompatActivity() {
                     with(response)
                     {
                         accessToken?.let { token -> tokenManager.saveAccessToken(token) }
-                        refreshToken?.let { token -> tokenManager.saveRefreshToken(token) }
-                        expiresIn?.let { expiresIn -> tokenManager.saveExpiryIn(expiresIn.toLong()) }
+                        refreshToken?.let { refresh -> tokenManager.saveRefreshToken(refresh) }
+                        expiresIn?.let {expiresIn ->
+                            val expiryTime = System.currentTimeMillis() + expiresIn * 1000
+                            tokenManager.saveExpiryIn(expiryTime)
+                        }
+
+                        Log.d("Authorization",tokenManager.getExpiryIn().toString())
+
                     }
 
                     prefManager.addPref(Constants.SP_IS_LOGGED_IN, true)
+                    prefManager.addPref(Constants.SP_USERNAME, username?:"User")
 
                     navigateToNextScreen()
 
@@ -128,6 +138,7 @@ class OtpActivity : AppCompatActivity() {
         intent?.let {
             sessionId = it.getStringExtra("sessionId")
             mobileNumber = it.getStringExtra("maskedPhone")
+            username =it.getStringExtra("username")
         }
 
         mobileNumber?.let {

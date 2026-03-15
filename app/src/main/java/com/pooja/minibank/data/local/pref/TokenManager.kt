@@ -13,9 +13,9 @@ class TokenManager @Inject constructor(val pref : SharedPreferences) {
         pref.edit { putString(Constants.SP_ACCESS_TOKEN,token) }
     }
 
-    fun getAccessToken()
+    fun getAccessToken() : String?
     {
-        pref.getString(Constants.SP_ACCESS_TOKEN, null)
+        return pref.getString(Constants.SP_ACCESS_TOKEN, null)
     }
 
     // Refresh Token
@@ -24,9 +24,9 @@ class TokenManager @Inject constructor(val pref : SharedPreferences) {
         pref.edit { putString(Constants.SP_REFRESH_TOKEN,token) }
     }
 
-    fun getRefreshToken()
+    fun getRefreshToken() : String?
     {
-        pref.getString(Constants.SP_REFRESH_TOKEN, null)
+        return pref.getString(Constants.SP_REFRESH_TOKEN, null)
     }
 
     // Expiry In
@@ -35,9 +35,9 @@ class TokenManager @Inject constructor(val pref : SharedPreferences) {
         pref.edit { putLong(Constants.SP_EXPIRY_TIME, expiryIn) }
     }
 
-    fun getExpiryIn()
+    fun getExpiryIn() : Long
     {
-        pref.getLong(Constants.SP_EXPIRY_TIME,0)
+       return pref.getLong(Constants.SP_EXPIRY_TIME,0)
     }
 
     //Check token expired or nit
@@ -57,6 +57,8 @@ class TokenManager @Inject constructor(val pref : SharedPreferences) {
     fun clearSession()
     {
         pref.edit { clear() }
+
+        pref.edit { putBoolean(Constants.SP_ONBOARDING_DONE, true) }
     }
 
     fun isLoggedIn() : Boolean{

@@ -26,6 +26,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
     private val viewModel : LoginViewModel by viewModels()
 
+    private var username = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -68,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
                         val intent = Intent(this@LoginActivity, OtpActivity::class.java).apply {
                             putExtra("sessionId",response.sessionId)
                             putExtra("maskedPhone",response.maskedPhone)
+                            putExtra("username", username)
                         }
                         startActivity(intent)
                     }
@@ -85,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
 
-            val username = binding.tieUsername.text.toString().trim()
+             username = binding.tieUsername.text.toString().trim()
             val password = binding.tiePassword.text.toString().trim()
 
             if(validate(username, password)) return@setOnClickListener

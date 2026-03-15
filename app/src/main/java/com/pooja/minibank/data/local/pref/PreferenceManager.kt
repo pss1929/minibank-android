@@ -1,10 +1,7 @@
 package com.pooja.minibank.data.local.pref
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.pooja.minibank.core.utils.Constants
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class PreferenceManager @Inject constructor(val pref : SharedPreferences){

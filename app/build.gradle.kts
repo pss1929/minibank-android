@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
+    id ("androidx.navigation.safeargs.kotlin")
+
     kotlin("kapt")
 }
 
@@ -68,6 +70,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    //swiperefresh layout
+    implementation(libs.androidx.swiperefreshlayout)
+
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -86,9 +91,9 @@ dependencies {
     implementation ("androidx.security:security-crypto:1.1.0-alpha06")
 
     //Room
-    implementation ("androidx.room:room-runtime:2.6.1")
-    kapt ("androidx.room:room-compiler:2.6.1")
-    implementation ("androidx.room:room-ktx:2.6.1")
+    implementation ("androidx.room:room-runtime:2.7.0")
+    kapt ("androidx.room:room-compiler:2.7.0")
+    implementation ("androidx.room:room-ktx:2.7.0")
 
     //activity
     implementation ("androidx.activity:activity-ktx:1.9.0")

@@ -5,16 +5,85 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.pooja.minibank.R
+import com.pooja.minibank.core.utils.Constants
+import com.pooja.minibank.data.local.pref.PreferenceManager
+import com.pooja.minibank.databinding.FragmentAccountBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AccountFragment : Fragment() {
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false)
+    @Inject lateinit var pref : PreferenceManager
+    private var _binding : FragmentAccountBinding?=null
+    private val binding get() = _binding!!
+
+    private val viewModel: AccountViewModel by viewModels()
+
+    private val adapter = AccountsAdapter {
+
+        val action = AccountFragmentDirections.actionAccountFragmentToTransactionFragment()
+        findNavController().navigate(action)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View
+    {
+        _binding = FragmentAccountBinding.inflate(layoutInflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initializeUI()
+
+        binding.swipeLayout.setOnRefreshListener {
+            callAccountApi()
+        }
+        //call API account
+        callAccountApi()
+
+        observeAccounts()
+
+    }
+
+    private fun callAccountApi() {
+        viewModel.getAccounts()
+    }
+
+    private fun initializeUI() {
+        val username = pref.getStringPref(Constants.SP_USERNAME)
+
+        val name = username?.let { Constants.getName(it) }
+        val initials = name?.let { Constants.getInitialLetter(it) }
+
+        binding.tvName.text = name
+        binding.tvProfile.text = initials
+
+        binding.rvAccounts.adapter = adapter
+
+        binding.swipeLayout.setColorSchemeResources(R.color.primary)
+    }
+
+    private fun observeAccounts() {
+
+        lifecycleScope.launchWhenStarted {
+
+            viewModel.accounts.collect {
+                adapter.submitList(it)
+                binding.swipeLayout.isRefreshing =false
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

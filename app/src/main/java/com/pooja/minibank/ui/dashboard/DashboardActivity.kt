@@ -9,9 +9,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.pooja.minibank.R
 import com.pooja.minibank.databinding.ActivityDashboardBinding
 import com.pooja.minibank.ui.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 
-
+@AndroidEntryPoint
 class DashboardActivity : BaseActivity() {
 
     private lateinit var binding : ActivityDashboardBinding

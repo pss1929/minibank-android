@@ -11,6 +11,19 @@ object Constants {
     const val SP_IS_LOGGED_IN = "isLoggedIn"
 
     const val SP_EXPIRY_TIME = "expiryTime"
+    const val SP_USERNAME = "username"
+
+    fun getName(username : String) : String
+    {
+        return username.replace(".", " ")
+            .split(" ")
+            .joinToString(" ") { it.replaceFirstChar {  s-> s.uppercase() }  }
+    }
+
+    fun getInitialLetter(name : String) : String
+    {
+        return name.split(" ").joinToString("") { it.first().uppercase() }
+    }
 
 
 }

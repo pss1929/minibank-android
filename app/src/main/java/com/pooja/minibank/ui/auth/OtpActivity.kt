@@ -4,13 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.pooja.minibank.R
 import com.pooja.minibank.core.utils.Constants
 import com.pooja.minibank.core.utils.NetworkUtil
@@ -80,14 +82,17 @@ class OtpActivity : AppCompatActivity() {
                             tokenManager.saveExpiryIn(expiryTime)
                         }
 
-                        Log.d("Authorization",tokenManager.getExpiryIn().toString())
-
                     }
 
                     prefManager.addPref(Constants.SP_IS_LOGGED_IN, true)
                     prefManager.addPref(Constants.SP_USERNAME, username?:"User")
 
-                    navigateToNextScreen()
+                    if(Constants.isBiometricAvailable(this)) {
+                        showEnableBiometricDialog()
+                    }
+                    else{
+                        navigateToNextScreen()
+                    }
 
                 }
                 is ResponseState.Error ->{
@@ -103,6 +108,7 @@ class OtpActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)
+        finishAffinity()
     }
 
     private fun clickListeners() {
@@ -184,5 +190,59 @@ class OtpActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
+    }
+
+    private fun showEnableBiometricDialog() {
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Enable Biometric Login")
+            .setMessage("Use fingerprint for faster login next time?")
+            .setPositiveButton("Enable") { _, _ ->
+
+                prefManager.addPref("biometric_enabled", true)
+                showBiometricPrompt()
+            }
+            .setNegativeButton("Not Now", null)
+            .show()
+    }
+
+    private fun showBiometricPrompt() {
+
+        val executor = ContextCompat.getMainExecutor(this)
+
+        val biometricPrompt = BiometricPrompt(
+            this,
+            executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+
+                override fun onAuthenticationSucceeded(
+                    result: BiometricPrompt.AuthenticationResult
+                ) {
+                    super.onAuthenticationSucceeded(result)
+
+                    navigateToNextScreen()
+                }
+
+                override fun onAuthenticationError(
+                    errorCode: Int,
+                    errString: CharSequence
+                ) {
+                    super.onAuthenticationError(errorCode, errString)
+
+                    // "Not Now" button clicked
+                    if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
+                        navigateToNextScreen()
+                    }
+                }
+            }
+        )
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric Login")
+            .setSubtitle("Confirm your fingerprint")
+            .setNegativeButtonText("Cancel")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
     }
 }

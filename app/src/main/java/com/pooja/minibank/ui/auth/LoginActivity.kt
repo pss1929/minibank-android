@@ -18,14 +18,19 @@ import com.pooja.minibank.core.utils.SnackBarUtil
 import com.pooja.minibank.core.utils.enableSecureScreen
 import com.pooja.minibank.core.utils.gone
 import com.pooja.minibank.core.utils.visible
+import com.pooja.minibank.data.local.pref.PreferenceManager
 import com.pooja.minibank.databinding.ActivityLoginBinding
+import com.pooja.minibank.ui.dashboard.DashboardActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityLoginBinding
     private val viewModel : LoginViewModel by viewModels()
+
+    @Inject lateinit var  pref : PreferenceManager
 
     private var username = ""
 
@@ -44,6 +49,16 @@ class LoginActivity : AppCompatActivity() {
 
         observeLogin()
     }
+
+
+    private fun navigateToNextScreen() {
+        val intent = Intent(this@LoginActivity, DashboardActivity::class.java).apply {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
+        finishAffinity()
+    }
+
 
     private fun initialization() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
@@ -76,6 +91,7 @@ class LoginActivity : AppCompatActivity() {
                             putExtra("username", username)
                         }
                         startActivity(intent)
+                        finishAffinity()
                     }
                 }
 

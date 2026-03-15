@@ -4,7 +4,6 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id ("androidx.navigation.safeargs.kotlin")
-
     kotlin("kapt")
 }
 
@@ -26,6 +25,7 @@ android {
 
     buildTypes {
         release {
+            isShrinkResources = true
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -108,6 +108,8 @@ dependencies {
     //fragment navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
 }
 
 kapt {

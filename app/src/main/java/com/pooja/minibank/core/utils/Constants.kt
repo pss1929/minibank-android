@@ -1,5 +1,8 @@
 package com.pooja.minibank.core.utils
 
+import android.content.Context
+import androidx.biometric.BiometricManager
+
 object Constants {
     const val SECURE_PREF_NAME ="secure_min_bank_pref"
 
@@ -26,4 +29,17 @@ object Constants {
     }
 
 
+     fun isBiometricAvailable(context : Context): Boolean {
+
+        val biometricManager = BiometricManager.from(context)
+
+        return when (
+            biometricManager.canAuthenticate(
+                BiometricManager.Authenticators.BIOMETRIC_STRONG
+            )
+        ) {
+            BiometricManager.BIOMETRIC_SUCCESS -> true
+            else -> false
+        }
+    }
 }

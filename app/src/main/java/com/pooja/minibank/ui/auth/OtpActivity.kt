@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.WindowManager
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -18,7 +19,6 @@ import com.pooja.minibank.core.utils.Constants
 import com.pooja.minibank.core.utils.NetworkUtil
 import com.pooja.minibank.core.utils.ResponseState
 import com.pooja.minibank.core.utils.SnackBarUtil
-import com.pooja.minibank.core.utils.enableSecureScreen
 import com.pooja.minibank.core.utils.gone
 import com.pooja.minibank.core.utils.visible
 import com.pooja.minibank.data.local.pref.PreferenceManager
@@ -47,9 +47,10 @@ class OtpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enableSecureScreen()
-        enableEdgeToEdge()
-
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
         binding = ActivityOtpBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initialization()

@@ -2,6 +2,7 @@ package com.pooja.minibank.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,6 @@ import com.pooja.minibank.R
 import com.pooja.minibank.core.utils.NetworkUtil
 import com.pooja.minibank.core.utils.ResponseState
 import com.pooja.minibank.core.utils.SnackBarUtil
-import com.pooja.minibank.core.utils.enableSecureScreen
 import com.pooja.minibank.core.utils.gone
 import com.pooja.minibank.core.utils.visible
 import com.pooja.minibank.data.local.pref.PreferenceManager
@@ -37,7 +37,10 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enableSecureScreen()
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
 

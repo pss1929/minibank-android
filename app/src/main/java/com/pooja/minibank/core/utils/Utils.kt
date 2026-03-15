@@ -1,8 +1,6 @@
 package com.pooja.minibank.core.utils
 
-import android.app.Activity
 import android.view.View
-import android.view.WindowManager
 
 fun View.visible() {
     this.visibility = View.VISIBLE
@@ -18,12 +16,5 @@ fun View.gone() {
     }
 }
 
-fun Activity.enableSecureScreen()
-{
-    fun Activity.enableSecureScreen() {
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        )
-    }
-}
+
+

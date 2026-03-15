@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -54,6 +55,15 @@ class AccountFragment : Fragment() {
 
         observeAccounts()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        requireActivity().window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
     }
 
     private fun callAccountApi() {

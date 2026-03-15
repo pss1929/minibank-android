@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.pooja.minibank.R
+import com.pooja.minibank.core.utils.enableSecureScreen
 import com.pooja.minibank.core.utils.visible
 import com.pooja.minibank.data.local.pref.TokenManager
 import com.pooja.minibank.databinding.FragmentTransferBinding
@@ -194,6 +196,15 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
         viewModel.transfer(
             token = tokenManager.getAccessToken().toString(),
             request = request
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        requireActivity().window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
         )
     }
 

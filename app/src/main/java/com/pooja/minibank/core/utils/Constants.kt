@@ -10,5 +10,7 @@ object Constants {
     const val SP_REFRESH_TOKEN = "refresh_token"
     const val SP_IS_LOGGED_IN = "isLoggedIn"
 
+    const val SP_EXPIRY_TIME = "expiryTime"
+
 
 }

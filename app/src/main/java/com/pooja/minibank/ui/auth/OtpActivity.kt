@@ -65,11 +65,17 @@ class OtpActivity : AppCompatActivity() {
 
                     val response = state.data
 
-                    response.accessToken?.let { token -> tokenManager.saveAccessToken(token) }
-                    response.refreshToken?.let { token -> tokenManager.saveRefreshToken(token) }
+                    with(response)
+                    {
+                        accessToken?.let { token -> tokenManager.saveAccessToken(token) }
+                        refreshToken?.let { token -> tokenManager.saveRefreshToken(token) }
+                        expiresIn?.let { expiresIn -> tokenManager.saveExpiryIn(expiresIn.toLong()) }
+                    }
+
                     prefManager.addPref(Constants.SP_IS_LOGGED_IN, true)
-                    startActivity(Intent(this@OtpActivity, MainActivity::class.java))
-                    finish()
+
+                    navigateToNextScreen()
+
                 }
                 is ResponseState.Error ->{
                     binding.progressbar.gone()
@@ -77,6 +83,13 @@ class OtpActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun navigateToNextScreen() {
+        val intent = Intent(this@OtpActivity, MainActivity::class.java).apply {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
     }
 
     private fun clickListeners() {
@@ -87,14 +100,21 @@ class OtpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (NetworkUtil.isNetworkAvailable(this@OtpActivity)) {
-                sessionId?.let {
-                    viewmodel.verifyOtp(sessionId = it, enterOtp)
-                }
-            } else {
-                SnackBarUtil.showError(binding.root, getString(R.string.no_internet_connection_available))
+            performOtpVerifyApiCall(enterOtp)
+        }
+    }
 
+    private fun performOtpVerifyApiCall(enterOtp: String) {
+        if (NetworkUtil.isNetworkAvailable(this@OtpActivity)) {
+            sessionId?.let {
+                viewmodel.verifyOtp(sessionId = it, enterOtp)
             }
+        } else {
+            SnackBarUtil.showError(
+                binding.root,
+                getString(R.string.no_internet_connection_available)
+            )
+
         }
     }
 

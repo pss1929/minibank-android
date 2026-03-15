@@ -7,4 +7,5 @@
     <string name="login">Login</string>
     <string name="enter_valid_otp">Enter valid OTP</string>
     <string name="a_6_digit_code_has_been_sent_to">A 6-digit code has been sent to %1$s</string>
+    <string name="session_expired">Session Expired</string>
 </resources>

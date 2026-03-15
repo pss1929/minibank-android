@@ -47,9 +47,10 @@ class SplashActivity : AppCompatActivity() {
 
             if(pref.getBooleanPref(Constants.SP_ONBOARDING_DONE))
             {
-                if(pref.getBooleanPref(Constants.SP_IS_LOGGED_IN))
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                if(pref.getBooleanPref(Constants.SP_IS_LOGGED_IN)) {
 
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                }
                 else
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             }

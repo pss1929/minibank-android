@@ -1,7 +1,10 @@
 package com.pooja.minibank.core.network
 
 import com.pooja.minibank.core.app.MiniBankApplication
+import com.pooja.minibank.data.local.pref.TokenManager
 import com.pooja.minibank.data.remote.ApiService
+import com.pooja.minibank.data.remote.interceptor.AuthInterceptor
+import com.pooja.minibank.data.remote.interceptor.SessionInterceptor
 import com.pooja.minibank.data.repository.AuthRepositoryImpl
 import com.pooja.minibank.domain.repository.AuthRepository
 import dagger.Module
@@ -22,6 +25,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideAuthInterceptor(tokenManager: TokenManager) : AuthInterceptor{
+        return AuthInterceptor(tokenManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSessionInterceptor(tokenManager: TokenManager) : SessionInterceptor{
+        return SessionInterceptor(tokenManager)
+    }
+
+    @Provides
+    @Singleton
     fun provideSslContext() : SSLContext{
         val context = SSLContext.getInstance("TLS")
         context.init(null, arrayOf(MiniBankApplication.trustManager),null)
@@ -30,7 +45,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(sslContext: SSLContext) : OkHttpClient{
+    fun provideOkHttpClient(sslContext: SSLContext,
+                            authInterceptor: AuthInterceptor,
+                            sessionInterceptor: SessionInterceptor) : OkHttpClient{
 
 
         val client = OkHttpClient.Builder()
@@ -43,6 +60,8 @@ object NetworkModule {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
+            .addInterceptor(authInterceptor)
+            .addInterceptor(sessionInterceptor)
             .build()
 
         return client

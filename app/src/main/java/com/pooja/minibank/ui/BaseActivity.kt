@@ -8,7 +8,7 @@ import com.pooja.minibank.R
 import com.pooja.minibank.data.remote.interceptor.SessionManager
 import com.pooja.minibank.ui.auth.LoginActivity
 
-class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()

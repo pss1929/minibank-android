@@ -17,6 +17,9 @@
         android:theme="@style/Theme.MiniBank"
         android:usesCleartextTraffic="false">
         <activity
+            android:name=".ui.dashboard.DashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.auth.OtpActivity"
             android:exported="false" />
         <activity

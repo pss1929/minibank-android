@@ -8,4 +8,9 @@
     <string name="enter_valid_otp">Enter valid OTP</string>
     <string name="a_6_digit_code_has_been_sent_to">A 6-digit code has been sent to %1$s</string>
     <string name="session_expired">Session Expired</string>
+    <string name="accounts">Accounts</string>
+    <string name="transfer">Transfer</string>
+    <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

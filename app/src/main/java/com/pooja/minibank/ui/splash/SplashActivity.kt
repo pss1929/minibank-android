@@ -9,11 +9,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.pooja.minibank.MainActivity
 import com.pooja.minibank.core.utils.Constants
 import com.pooja.minibank.data.local.pref.PreferenceManager
 import com.pooja.minibank.databinding.ActivitySplashBinding
 import com.pooja.minibank.ui.auth.LoginActivity
+import com.pooja.minibank.ui.dashboard.DashboardActivity
 import com.pooja.minibank.ui.onboarding.OnBoardingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -49,7 +49,7 @@ class SplashActivity : AppCompatActivity() {
             {
                 if(pref.getBooleanPref(Constants.SP_IS_LOGGED_IN)) {
 
-                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                    startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
                 }
                 else
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))

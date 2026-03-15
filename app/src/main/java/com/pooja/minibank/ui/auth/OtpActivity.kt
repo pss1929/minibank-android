@@ -10,7 +10,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.pooja.minibank.MainActivity
 import com.pooja.minibank.R
 import com.pooja.minibank.core.utils.Constants
 import com.pooja.minibank.core.utils.NetworkUtil
@@ -21,6 +20,7 @@ import com.pooja.minibank.core.utils.visible
 import com.pooja.minibank.data.local.pref.PreferenceManager
 import com.pooja.minibank.data.local.pref.TokenManager
 import com.pooja.minibank.databinding.ActivityOtpBinding
+import com.pooja.minibank.ui.dashboard.DashboardActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -86,7 +86,7 @@ class OtpActivity : AppCompatActivity() {
     }
 
     private fun navigateToNextScreen() {
-        val intent = Intent(this@OtpActivity, MainActivity::class.java).apply {
+        val intent = Intent(this@OtpActivity, DashboardActivity::class.java).apply {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)

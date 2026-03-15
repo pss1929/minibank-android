@@ -18,4 +18,8 @@
         <item name="android:inputType">number</item>
         <item name="android:maxLength">1</item>
     </style>
+
+    <style name="BottomMenuText" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

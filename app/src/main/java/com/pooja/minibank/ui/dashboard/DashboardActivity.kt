@@ -74,11 +74,7 @@ class DashboardActivity : BaseActivity() {
         super.onResume()
         if(Constants.isBiometricAvailable(this@DashboardActivity) && pref.getBooleanPref("biometric_enabled"))
             showBiometricPrompt()
-        else {
-            finish()
-        }
-
-
+       
     }
 
     private fun showBiometricPrompt() {

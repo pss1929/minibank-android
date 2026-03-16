@@ -10,12 +10,12 @@
     <style name="Theme.MiniBank" parent="Base.Theme.MiniBank" />
 
     <style name="OtpBox">
-        <item name="android:layout_width">45dp</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="android:layout_margin">6dp</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:layout_margin">4dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_primary</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/otp_background</item>
         <item name="android:inputType">number</item>
         <item name="android:maxLength">1</item>
@@ -28,7 +28,6 @@
 
     <style name="BottomMenuText" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Theme.MiniBank.Blue" parent="Base.Theme.MiniBank">

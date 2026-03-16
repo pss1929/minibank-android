@@ -68,13 +68,9 @@ class SplashActivity : AppCompatActivity() {
             if(pref.getBooleanPref(Constants.SP_ONBOARDING_DONE))
             {
                 if(pref.getBooleanPref(Constants.SP_IS_LOGGED_IN)) {
+                    startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
+                    finish()
 
-                   if(Constants.isBiometricAvailable(this@SplashActivity) && pref.getBooleanPref("biometric_enabled"))
-                    showBiometricPrompt()
-                   else {
-                       startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-                       finish()
-                   }
                 }
                 else {
                     startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
@@ -89,34 +85,4 @@ class SplashActivity : AppCompatActivity() {
         }, 3000)
     }
 
-    private fun showBiometricPrompt() {
-
-        val executor = ContextCompat.getMainExecutor(this)
-
-        val biometricPrompt = BiometricPrompt(
-            this,
-            executor,
-            object : BiometricPrompt.AuthenticationCallback() {
-
-                override fun onAuthenticationSucceeded(
-                    result: BiometricPrompt.AuthenticationResult
-                ) {
-                    super.onAuthenticationSucceeded(result)
-
-
-                    startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
-                    finish()
-
-                }
-            }
-        )
-
-        val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Biometric Login")
-            .setSubtitle("Confirm your fingerprint")
-            .setNegativeButtonText("Cancel")
-            .build()
-
-        biometricPrompt.authenticate(promptInfo)
-    }
 }

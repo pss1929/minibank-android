@@ -72,6 +72,12 @@ class LoginActivity : AppCompatActivity() {
 
         clearErrorForTextInputLayout(binding.tilUsername, binding.tieUsername)
         clearErrorForTextInputLayout(binding.tilPassword, binding.tiePassword)
+
+        val versionName = packageManager
+            .getPackageInfo(packageName, 0).versionName
+
+        binding.tvVersion.text =" Version : $versionName"
+
     }
 
     private fun observeLogin() {

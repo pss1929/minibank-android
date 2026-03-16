@@ -8,9 +8,13 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.pooja.minibank.R
-import com.pooja.minibank.core.utils.enableSecureScreen
+import com.pooja.minibank.core.utils.SnackBarUtil
 import com.pooja.minibank.core.utils.visible
 import com.pooja.minibank.data.local.pref.TokenManager
 import com.pooja.minibank.databinding.FragmentTransferBinding
@@ -37,6 +41,7 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = FragmentTransferBinding.bind(view)
+        binding.toolbar.setTitle("Transfer")
 
         observeData()
 
@@ -44,6 +49,8 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
         viewModel.loadBeneficiaries()
 
         setupDropdownClicks()
+
+        clearErrorForTextInputLayout(binding.tilAmount, binding.etAmount)
 
         binding.btnTransfer.setOnClickListener {
             performTransfer()
@@ -66,9 +73,8 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
         // ACCOUNT DROPDOWN
 
         viewModel.accounts.observe(viewLifecycleOwner) { accounts ->
-
             val accountList = accounts.map {
-                "${it.name} (${it.maskedNumber}) - ₹${it.balance}"
+                "${it.name} (${it.maskedNumber})"
             }
 
             val adapter = ArrayAdapter(
@@ -123,6 +129,7 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
                         Toast.LENGTH_LONG
                     ).show()
                     clearForm()
+                    findNavController().navigate(R.id.accountFragment)
                 }
 
                 "FAILED" -> {
@@ -157,29 +164,18 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
 
         if (selectedAccountId == null) {
 
-            Toast.makeText(
-                requireContext(),
-                "Please select account",
-                Toast.LENGTH_SHORT
-            ).show()
-
+            SnackBarUtil.showError(binding.root,"Please select account" )
             return
         }
 
         if (selectedBeneficiaryId == null) {
-
-            Toast.makeText(
-                requireContext(),
-                "Please select beneficiary",
-                Toast.LENGTH_SHORT
-            ).show()
-
+            SnackBarUtil.showError(binding.root,"Please select beneficiary")
             return
         }
 
         if (amountText.isEmpty()) {
 
-            binding.etAmount.error = "Enter amount"
+            binding.tilAmount.error=  "Amount is required"
             return
         }
 
@@ -197,6 +193,14 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
             token = tokenManager.getAccessToken().toString(),
             request = request
         )
+    }
+
+    private fun clearErrorForTextInputLayout(tilValue: TextInputLayout, tieValue: TextInputEditText)
+    {
+        tieValue.addTextChangedListener {
+            tilValue.error = null
+            tilValue.isErrorEnabled = false
+        }
     }
 
     override fun onResume() {

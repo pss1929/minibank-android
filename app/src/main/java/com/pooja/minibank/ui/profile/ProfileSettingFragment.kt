@@ -39,9 +39,12 @@ class ProfileSettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val name = pref.getStringPref(Constants.SP_USERNAME)
+        val number = pref.getStringPref(Constants.SP_MOBILE)
+
 
         binding.tvName.text = Constants.getName(name?:"User")
         binding.tvInitial.text = Constants.getInitialLetter(name?:"User")
+        binding.tvNumber.text = number
 
 
         setupDarkMode()

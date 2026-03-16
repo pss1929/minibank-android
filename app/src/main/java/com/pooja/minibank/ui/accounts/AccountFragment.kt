@@ -1,11 +1,14 @@
 package com.pooja.minibank.ui.accounts
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,6 +19,7 @@ import com.pooja.minibank.core.utils.gone
 import com.pooja.minibank.core.utils.visible
 import com.pooja.minibank.data.local.pref.PreferenceManager
 import com.pooja.minibank.databinding.FragmentAccountBinding
+import com.pooja.minibank.ui.dashboard.DashboardActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,9 +33,9 @@ class AccountFragment : Fragment() {
 
     private val viewModel: AccountViewModel by viewModels()
 
-    private val adapter = AccountsAdapter {
+    private val adapter = AccountsAdapter { item ->
 
-        val action = AccountFragmentDirections.actionAccountFragmentToTransactionFragment()
+        val action = AccountFragmentDirections.actionAccountFragmentToTransactionFragment(item.id.toString())
         findNavController().navigate(action)
     }
 
@@ -44,6 +48,7 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         initializeUI()
 
@@ -131,4 +136,6 @@ class AccountFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

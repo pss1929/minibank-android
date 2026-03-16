@@ -1,6 +1,7 @@
 package com.pooja.minibank.ui.transactions
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -41,7 +42,10 @@ class TransactionsAdapter(private val context : Context) :
                 )
             )
 
-            holder.binding.cardType.setCardBackgroundColor(ContextCompat.getColor(context, R.color.red_light))
+            holder.binding.cardType.backgroundTintList =
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(holder.itemView.context, R.color.red_light)
+                )
             holder.binding.ivType.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_debit))
 
         } else {
@@ -52,8 +56,10 @@ class TransactionsAdapter(private val context : Context) :
                     android.R.color.holo_green_dark
                 )
             )
-            holder.binding.cardType.setCardBackgroundColor(ContextCompat.getColor(context, R.color.green_light))
-
+            holder.binding.cardType.backgroundTintList =
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(holder.itemView.context, R.color.green_light)
+                )
             holder.binding.ivType.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_credit))
 
         }

@@ -19,7 +19,11 @@
         android:id="@+id/transactionFragment"
         android:name="com.pooja.minibank.ui.transactions.TransactionFragment"
         android:label="fragment_transaction"
-        tools:layout="@layout/fragment_transaction" />
+        tools:layout="@layout/fragment_transaction">
+        <argument
+            android:name="accountId"
+            app:argType="string"/>
+    </fragment>
 
     <fragment
         android:id="@+id/transferFragment"
@@ -31,5 +35,7 @@
         android:id="@+id/profileSettingFragment"
         android:name="com.pooja.minibank.ui.profile.ProfileSettingFragment"
         android:label="fragment_profile_setting"
-        tools:layout="@layout/fragment_profile_setting" />
+        tools:layout="@layout/fragment_profile_setting" >
+
+    </fragment>
 </navigation>

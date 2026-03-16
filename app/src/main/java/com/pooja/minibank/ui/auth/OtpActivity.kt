@@ -87,6 +87,7 @@ class OtpActivity : AppCompatActivity() {
 
                     prefManager.addPref(Constants.SP_IS_LOGGED_IN, true)
                     prefManager.addPref(Constants.SP_USERNAME, username?:"User")
+                    prefManager.addPref(Constants.SP_MOBILE, mobileNumber?:"-")
 
                     if(Constants.isBiometricAvailable(this)) {
                         showEnableBiometricDialog()

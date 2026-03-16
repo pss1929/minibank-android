@@ -8,8 +8,11 @@
     <color name="primary_light">#FFA726</color>
     <color name="primary_dark">#FB8C00</color>
     <color name="red">#F44336</color>
+    <color name="colorPrimaryDark" >#CB4C0D</color>
 
     <color name="background">#FFFFFF</color>
+    <color name="background1">#FFFFFF</color>
+
     <color name="surface">#F5F5F5</color>
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
@@ -19,5 +22,7 @@
     <color name="debit_color">#2E7D32</color>
     <color name="red_light">#F44336</color>
     <color name="green_light">#2E7D32</color>
+
+
 
 </resources>

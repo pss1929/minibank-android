@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pooja.minibank.R
-import com.pooja.minibank.core.utils.enableSecureScreen
 import com.pooja.minibank.databinding.FragmentTransactionBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,6 +36,9 @@ class TransactionFragment : Fragment() {
     private var fromDate = ""
     private var toDate = ""
 
+
+    private val args: TransactionFragmentArgs by navArgs()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View
     {
@@ -56,7 +59,8 @@ class TransactionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter = TransactionsAdapter(requireContext())
 
-        accountId = arguments?.getString("accountId") ?: ""
+        accountId = args.accountId
+        //accountId = arguments?.getString("accountId") ?: ""
 
         backClickHandle()
 

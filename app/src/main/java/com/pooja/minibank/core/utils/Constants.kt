@@ -16,6 +16,9 @@ object Constants {
     const val SP_EXPIRY_TIME = "expiryTime"
     const val SP_USERNAME = "username"
 
+    const val SP_MOBILE = "mobile_number"
+
+
     fun getName(username : String) : String
     {
         return username.replace(".", " ")

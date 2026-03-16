@@ -66,6 +66,9 @@ This project uses MockWebServer to simulate backend APIs. As this was my first t
 ## Build Note
 The project was developed using a recent version of the Android Gradle Plugin.  If using an older Android Studio version, you may need to downgrade the AGP version.
 
+## Screenshot
+Please find screenshot from  https://github.com/pss1929/minibank-android/blob/main/scrrenshot/Account%20Screen.jpeg
+
 ## Author
 **Pooja Sankar**  
 Android Developer

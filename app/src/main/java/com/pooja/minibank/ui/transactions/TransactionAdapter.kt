@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pooja.minibank.R
 import com.pooja.minibank.databinding.ItemTransactionDetailBinding
 import com.pooja.minibank.domain.model.transaction.Transaction
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class TransactionsAdapter(private val context : Context) :
     ListAdapter<Transaction, TransactionsAdapter.TransactionViewHolder>(DIFF) {
@@ -30,7 +32,20 @@ class TransactionsAdapter(private val context : Context) :
         val item = getItem(position)
 
         holder.binding.tvCounterParty.text = item.counterparty
-        holder.binding.tvNarration.text = item.narration
+
+        try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+
+            val formattedDate = outputFormat.format(inputFormat.parse(item.timestamp)!!)
+            holder.binding.tvNarration.text = item.narration + "- $formattedDate"
+
+        }
+        catch (e: Exception)
+        {
+            holder.binding.tvNarration.text = item.narration
+
+        }
         holder.binding.tvStatus.text = item.status
 
         if (item.type == "DEBIT") {
@@ -63,6 +78,8 @@ class TransactionsAdapter(private val context : Context) :
             holder.binding.ivType.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_credit))
 
         }
+
+
     }
 
     companion object {
